@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ArticleMapper">
+
+    <resultMap type="Article" id="ArticleResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="cover"    column="cover"    />
+        <result property="content"    column="content"    />
+        <result property="views"    column="views"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectArticleVo">
+        select * from article
+    </sql>
+
+    <select id="selectArticleList" parameterType="Article" resultType="com.ruoyi.system.domain.Article">
+        <include refid="selectArticleVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="cover != null  and cover != ''"> and cover = #{cover}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="views != null "> and views = #{views}</if>
+        </where>
+    </select>
+
+    <select id="selectArticleById" parameterType="Long" resultType="com.ruoyi.system.domain.Article">
+                <include refid="selectArticleVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertArticle" parameterType="Article" useGeneratedKeys="true" keyProperty="id">
+        insert into article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="cover != null">cover,</if>
+            <if test="content != null">content,</if>
+            <if test="views != null">views,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="cover != null">#{cover},</if>
+            <if test="content != null">#{content},</if>
+            <if test="views != null">#{views},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateArticle" parameterType="Article">
+        update article
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="cover != null">cover = #{cover},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="views != null">views = #{views},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteArticleById" parameterType="Long">
+        delete from article where id = #{id}
+    </delete>
+
+    <delete id="del">
+        delete from article
+        <where>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="cover != null  and cover != ''"> and cover = #{cover}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="views != null "> and views = #{views}</if>
+        </where>
+    </delete>
+    <delete id="deleteArticleByIds" parameterType="String">
+        delete from article where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

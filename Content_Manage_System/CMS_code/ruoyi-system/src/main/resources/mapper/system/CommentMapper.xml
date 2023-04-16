@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CommentMapper">
+
+    <resultMap type="Comment" id="CommentResult">
+        <result property="id"    column="id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="type"    column="type"    />
+        <result property="commentUserId"    column="comment_user_id"    />
+        <result property="commentUserNickName"    column="comment_user_nick_name"    />
+        <result property="commentUserAvatar"    column="comment_user_avatar"    />
+        <result property="targetUserId"    column="target_user_id"    />
+        <result property="targetUserNickName"    column="target_user_nick_name"    />
+        <result property="targetUserAvatar"    column="target_user_avatar"    />
+        <result property="content"    column="content"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="recommend"    column="recommend"    />
+    </resultMap>
+
+    <sql id="selectCommentVo">
+        select * from comment
+    </sql>
+
+    <select id="selectCommentList" parameterType="Comment" resultType="com.ruoyi.system.domain.Comment">
+        <include refid="selectCommentVo"/>
+        <where>
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="commentUserId != null "> and comment_user_id = #{commentUserId}</if>
+            <if test="commentUserNickName != null  and commentUserNickName != ''"> and comment_user_nick_name like concat('%', #{commentUserNickName}, '%')</if>
+            <if test="commentUserAvatar != null  and commentUserAvatar != ''"> and comment_user_avatar = #{commentUserAvatar}</if>
+            <if test="targetUserId != null "> and target_user_id = #{targetUserId}</if>
+            <if test="targetUserNickName != null  and targetUserNickName != ''"> and target_user_nick_name like concat('%', #{targetUserNickName}, '%')</if>
+            <if test="targetUserAvatar != null  and targetUserAvatar != ''"> and target_user_avatar = #{targetUserAvatar}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="recommend != null "> and recommend = #{recommend}</if>
+        </where>
+    </select>
+
+    <select id="selectCommentById" parameterType="Long" resultType="com.ruoyi.system.domain.Comment">
+                <include refid="selectCommentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertComment" parameterType="Comment" useGeneratedKeys="true" keyProperty="id">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="type != null">type,</if>
+            <if test="commentUserId != null">comment_user_id,</if>
+            <if test="commentUserNickName != null">comment_user_nick_name,</if>
+            <if test="commentUserAvatar != null">comment_user_avatar,</if>
+            <if test="targetUserId != null">target_user_id,</if>
+            <if test="targetUserNickName != null">target_user_nick_name,</if>
+            <if test="targetUserAvatar != null">target_user_avatar,</if>
+            <if test="content != null">content,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="recommend != null">recommend,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="commentUserId != null">#{commentUserId},</if>
+            <if test="commentUserNickName != null">#{commentUserNickName},</if>
+            <if test="commentUserAvatar != null">#{commentUserAvatar},</if>
+            <if test="targetUserId != null">#{targetUserId},</if>
+            <if test="targetUserNickName != null">#{targetUserNickName},</if>
+            <if test="targetUserAvatar != null">#{targetUserAvatar},</if>
+            <if test="content != null">#{content},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="recommend != null">#{recommend},</if>
+         </trim>
+    </insert>
+
+    <update id="updateComment" parameterType="Comment">
+        update comment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="commentUserId != null">comment_user_id = #{commentUserId},</if>
+            <if test="commentUserNickName != null">comment_user_nick_name = #{commentUserNickName},</if>
+            <if test="commentUserAvatar != null">comment_user_avatar = #{commentUserAvatar},</if>
+            <if test="targetUserId != null">target_user_id = #{targetUserId},</if>
+            <if test="targetUserNickName != null">target_user_nick_name = #{targetUserNickName},</if>
+            <if test="targetUserAvatar != null">target_user_avatar = #{targetUserAvatar},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="recommend != null">recommend = #{recommend},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCommentById" parameterType="Long">
+        delete from comment where id = #{id}
+    </delete>
+
+    <delete id="del">
+        delete from comment
+        <where>
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="commentUserId != null "> and comment_user_id = #{commentUserId}</if>
+            <if test="commentUserNickName != null  and commentUserNickName != ''"> and comment_user_nick_name like concat('%', #{commentUserNickName}, '%')</if>
+            <if test="commentUserAvatar != null  and commentUserAvatar != ''"> and comment_user_avatar = #{commentUserAvatar}</if>
+            <if test="targetUserId != null "> and target_user_id = #{targetUserId}</if>
+            <if test="targetUserNickName != null  and targetUserNickName != ''"> and target_user_nick_name like concat('%', #{targetUserNickName}, '%')</if>
+            <if test="targetUserAvatar != null  and targetUserAvatar != ''"> and target_user_avatar = #{targetUserAvatar}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="createDate != null "> and create_date = #{createDate}</if>
+            <if test="recommend != null "> and recommend = #{recommend}</if>
+        </where>
+    </delete>
+    <delete id="deleteCommentByIds" parameterType="String">
+        delete from comment where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

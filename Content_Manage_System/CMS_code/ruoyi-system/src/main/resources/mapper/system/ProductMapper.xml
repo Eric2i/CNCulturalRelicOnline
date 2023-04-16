@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ProductMapper">
+
+    <resultMap type="Product" id="ProductResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="cover"    column="cover"    />
+        <result property="intro"    column="intro"    />
+        <result property="price"    column="price"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectProductVo">
+        select * from product
+    </sql>
+
+    <select id="selectProductList" parameterType="Product" resultType="com.ruoyi.system.domain.Product">
+        <include refid="selectProductVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="cover != null  and cover != ''"> and cover = #{cover}</if>
+            <if test="intro != null  and intro != ''"> and intro = #{intro}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectProductById" parameterType="String" resultType="com.ruoyi.system.domain.Product">
+                <include refid="selectProductVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertProduct" parameterType="Product" useGeneratedKeys="true" keyProperty="id">
+        insert into product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="cover != null">cover,</if>
+            <if test="intro != null and intro != ''">intro,</if>
+            <if test="price != null">price,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="cover != null">#{cover},</if>
+            <if test="intro != null and intro != ''">#{intro},</if>
+            <if test="price != null">#{price},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProduct" parameterType="Product">
+        update product
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="cover != null">cover = #{cover},</if>
+            <if test="intro != null and intro != ''">intro = #{intro},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteProductById" parameterType="String">
+        delete from product where id = #{id}
+    </delete>
+
+    <delete id="del">
+        delete from product
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="cover != null  and cover != ''"> and cover = #{cover}</if>
+            <if test="intro != null  and intro != ''"> and intro = #{intro}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </delete>
+    <delete id="deleteProductByIds" parameterType="String">
+        delete from product where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
