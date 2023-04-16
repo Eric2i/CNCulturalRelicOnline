@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.EquipmentMapper">
+
+    <resultMap type="Equipment" id="EquipmentResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="detail"    column="detail"    />
+        <result property="cover"    column="cover"    />
+        <result property="price"    column="price"    />
+        <result property="num"    column="num"    />
+        <result property="num1"    column="num1"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectEquipmentVo">
+        select * from equipment
+    </sql>
+
+    <select id="selectEquipmentList" parameterType="Equipment" resultType="com.ruoyi.system.domain.Equipment">
+        <include refid="selectEquipmentVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="detail != null  and detail != ''"> and detail = #{detail}</if>
+            <if test="cover != null  and cover != ''"> and cover = #{cover}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="num != null "> and num = #{num}</if>
+            <if test="num1 != null "> and num1 = #{num1}</if>
+        </where>
+    </select>
+
+    <select id="selectEquipmentById" parameterType="Long" resultType="com.ruoyi.system.domain.Equipment">
+                <include refid="selectEquipmentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertEquipment" parameterType="Equipment" useGeneratedKeys="true" keyProperty="id">
+        insert into equipment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="detail != null">detail,</if>
+            <if test="cover != null">cover,</if>
+            <if test="price != null">price,</if>
+            <if test="num != null">num,</if>
+            <if test="num1 != null">num1,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="detail != null">#{detail},</if>
+            <if test="cover != null">#{cover},</if>
+            <if test="price != null">#{price},</if>
+            <if test="num != null">#{num},</if>
+            <if test="num1 != null">#{num1},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEquipment" parameterType="Equipment">
+        update equipment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="detail != null">detail = #{detail},</if>
+            <if test="cover != null">cover = #{cover},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="num != null">num = #{num},</if>
+            <if test="num1 != null">num1 = #{num1},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEquipmentById" parameterType="Long">
+        delete from equipment where id = #{id}
+    </delete>
+
+    <delete id="del">
+        delete from equipment
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="detail != null  and detail != ''"> and detail = #{detail}</if>
+            <if test="cover != null  and cover != ''"> and cover = #{cover}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="num != null "> and num = #{num}</if>
+            <if test="num1 != null "> and num1 = #{num1}</if>
+        </where>
+    </delete>
+    <delete id="deleteEquipmentByIds" parameterType="String">
+        delete from equipment where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

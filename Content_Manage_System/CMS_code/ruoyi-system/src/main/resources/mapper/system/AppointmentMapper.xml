@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AppointmentMapper">
+
+    <resultMap type="Appointment" id="AppointmentResult">
+        <result property="id"    column="id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="username"    column="username"    />
+        <result property="type"    column="type"    />
+        <result property="price"    column="price"    />
+        <result property="num"    column="num"    />
+        <result property="totalPrice"    column="total_price"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="status"    column="status"    />
+        <result property="status1"    column="status1"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectAppointmentVo">
+        select * from appointment
+    </sql>
+
+    <select id="selectAppointmentList" parameterType="Appointment" resultType="com.ruoyi.system.domain.Appointment">
+        <include refid="selectAppointmentVo"/>
+        <where>
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="num != null "> and num = #{num}</if>
+            <if test="totalPrice != null "> and total_price = #{totalPrice}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="status1 != null "> and status1 = #{status1}</if>
+        </where>
+    </select>
+
+    <select id="selectAppointmentById" parameterType="Long" resultType="com.ruoyi.system.domain.Appointment">
+                <include refid="selectAppointmentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAppointment" parameterType="Appointment" useGeneratedKeys="true" keyProperty="id">
+        insert into appointment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="username != null">username,</if>
+            <if test="type != null">type,</if>
+            <if test="price != null">price,</if>
+            <if test="num != null">num,</if>
+            <if test="totalPrice != null">total_price,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="status != null">status,</if>
+            <if test="status1 != null">status1,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="username != null">#{username},</if>
+            <if test="type != null">#{type},</if>
+            <if test="price != null">#{price},</if>
+            <if test="num != null">#{num},</if>
+            <if test="totalPrice != null">#{totalPrice},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="status1 != null">#{status1},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAppointment" parameterType="Appointment">
+        update appointment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="num != null">num = #{num},</if>
+            <if test="totalPrice != null">total_price = #{totalPrice},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="status1 != null">status1 = #{status1},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAppointmentById" parameterType="Long">
+        delete from appointment where id = #{id}
+    </delete>
+
+    <delete id="del">
+        delete from appointment
+        <where>
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="price != null "> and price = #{price}</if>
+            <if test="num != null "> and num = #{num}</if>
+            <if test="totalPrice != null "> and total_price = #{totalPrice}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="status1 != null "> and status1 = #{status1}</if>
+        </where>
+    </delete>
+    <delete id="deleteAppointmentByIds" parameterType="String">
+        delete from appointment where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

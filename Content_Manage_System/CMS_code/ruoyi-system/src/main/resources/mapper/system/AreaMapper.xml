@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AreaMapper">
+
+    <resultMap type="Area" id="AreaResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="address"    column="address"    />
+        <result property="detail"    column="detail"    />
+        <result property="tel"    column="tel"    />
+        <result property="cover"    column="cover"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="status"    column="status"    />
+        <result property="price"    column="price"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectAreaVo">
+        select * from area
+    </sql>
+
+    <select id="selectAreaList" parameterType="Area" resultType="com.ruoyi.system.domain.Area">
+        <include refid="selectAreaVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="detail != null  and detail != ''"> and detail = #{detail}</if>
+            <if test="tel != null  and tel != ''"> and tel = #{tel}</if>
+            <if test="cover != null  and cover != ''"> and cover = #{cover}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="price != null "> and price = #{price}</if>
+        </where>
+    </select>
+
+    <select id="selectAreaById" parameterType="Long" resultType="com.ruoyi.system.domain.Area">
+                <include refid="selectAreaVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertArea" parameterType="Area" useGeneratedKeys="true" keyProperty="id">
+        insert into area
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="address != null">address,</if>
+            <if test="detail != null">detail,</if>
+            <if test="tel != null">tel,</if>
+            <if test="cover != null">cover,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="status != null">status,</if>
+            <if test="price != null">price,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="address != null">#{address},</if>
+            <if test="detail != null">#{detail},</if>
+            <if test="tel != null">#{tel},</if>
+            <if test="cover != null">#{cover},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="price != null">#{price},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateArea" parameterType="Area">
+        update area
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="detail != null">detail = #{detail},</if>
+            <if test="tel != null">tel = #{tel},</if>
+            <if test="cover != null">cover = #{cover},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAreaById" parameterType="Long">
+        delete from area where id = #{id}
+    </delete>
+
+    <delete id="del">
+        delete from area
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="detail != null  and detail != ''"> and detail = #{detail}</if>
+            <if test="tel != null  and tel != ''"> and tel = #{tel}</if>
+            <if test="cover != null  and cover != ''"> and cover = #{cover}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="price != null "> and price = #{price}</if>
+        </where>
+    </delete>
+    <delete id="deleteAreaByIds" parameterType="String">
+        delete from area where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
