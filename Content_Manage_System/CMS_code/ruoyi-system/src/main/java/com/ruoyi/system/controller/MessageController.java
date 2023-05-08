@@ -26,7 +26,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 留言信息Controller
  *
  * @author ruoyi
- * @date 2023-04-10
+ * @date 2023-05-07
  */
 @RestController
 @RequestMapping("/system/message")

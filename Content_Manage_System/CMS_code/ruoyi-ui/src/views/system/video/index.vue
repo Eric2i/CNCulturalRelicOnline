@@ -1,32 +1,9 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="姓名" prop="name">
-        <el-input
-          v-model="queryParams.name"
-          placeholder="请输入姓名"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="联系方式" prop="phone">
-        <el-input
-          v-model="queryParams.phone"
-          placeholder="请输入联系方式"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="审核状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择审核状态" clearable size="small">
-          <el-option
-            v-for="dict in dict.type.a_type"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
+          <el-option label="请选择字典生成" value="" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -43,7 +20,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:message:add']"
+          v-hasPermi="['system:video:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -54,7 +31,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:message:edit']"
+          v-hasPermi="['system:video:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -65,7 +42,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:message:remove']"
+          v-hasPermi="['system:video:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -75,23 +52,17 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:message:export']"
+          v-hasPermi="['system:video:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="messageList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="videoList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="姓名" align="center" prop="name" />
-      <el-table-column label="联系方式" align="center" prop="phone" />
-      <el-table-column label="内容" align="center" prop="content" />
-      <el-table-column label="审核状态" align="center" prop="status">
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.a_type" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
+      <el-table-column label="视频" align="center" prop="content" />
+      <el-table-column label="审核状态" align="center" prop="status" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -99,19 +70,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:message:edit']"
+            v-hasPermi="['system:video:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:message:remove']"
+            v-hasPermi="['system:video:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -120,25 +91,15 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改留言信息对话框 -->
+    <!-- 添加或修改视频信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="form.name" placeholder="请输入姓名" />
-        </el-form-item>
-        <el-form-item label="联系方式" prop="phone">
-          <el-input v-model="form.phone" placeholder="请输入联系方式" />
-        </el-form-item>
-        <el-form-item label="内容">
-          <editor v-model="form.content" :min-height="192"/>
+        <el-form-item label="视频">
+          <fileUpload v-model="form.content"/>
         </el-form-item>
         <el-form-item label="审核状态">
           <el-radio-group v-model="form.status">
-            <el-radio
-              v-for="dict in dict.type.a_type"
-              :key="dict.value"
-              :label="parseInt(dict.value)"
-            >{{dict.label}}</el-radio>
+            <el-radio label="1">请选择字典生成</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -151,11 +112,10 @@
 </template>
 
 <script>
-import { listMessage, getMessage, delMessage, addMessage, updateMessage } from "@/api/system/message";
+import { listVideo, getVideo, delVideo, addVideo, updateVideo } from "@/api/system/video";
 
 export default {
-  name: "Message",
-  dicts: ['a_type'],
+  name: "Video",
   data() {
     return {
       // 遮罩层
@@ -170,8 +130,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 留言信息表格数据
-      messageList: [],
+      // 视频信息表格数据
+      videoList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -180,8 +140,6 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        name: null,
-        phone: null,
         content: null,
         status: null,
       },
@@ -189,14 +147,8 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        name: [
-          { required: true, message: "姓名不能为空", trigger: "blur" }
-        ],
-        phone: [
-          { required: true, message: "联系方式不能为空", trigger: "blur" }
-        ],
         content: [
-          { required: true, message: "内容不能为空", trigger: "blur" }
+          { required: true, message: "视频不能为空", trigger: "blur" }
         ],
       }
     };
@@ -205,11 +157,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询留言信息列表 */
+    /** 查询视频信息列表 */
     getList() {
       this.loading = true;
-      listMessage(this.queryParams).then(response => {
-        this.messageList = response.rows;
+      listVideo(this.queryParams).then(response => {
+        this.videoList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -223,8 +175,6 @@ export default {
     reset() {
       this.form = {
         id: null,
-        name: null,
-        phone: null,
         content: null,
         status: 0,
         createTime: null
@@ -251,16 +201,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加留言信息";
+      this.title = "添加视频信息";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getMessage(id).then(response => {
+      getVideo(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改留言信息";
+        this.title = "修改视频信息";
       });
     },
     /** 提交按钮 */
@@ -268,13 +218,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateMessage(this.form).then(response => {
+            updateVideo(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addMessage(this.form).then(response => {
+            addVideo(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -286,8 +236,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除留言信息编号为"' + ids + '"的数据项？').then(function() {
-        return delMessage(ids);
+      this.$modal.confirm('是否确认删除视频信息编号为"' + ids + '"的数据项？').then(function() {
+        return delVideo(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -295,9 +245,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/message/export', {
+      this.download('system/video/export', {
         ...this.queryParams
-      }, `message_${new Date().getTime()}.xlsx`)
+      }, `video_${new Date().getTime()}.xlsx`)
     }
   }
 };

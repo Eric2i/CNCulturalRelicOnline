@@ -1,24 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="姓名" prop="name">
-        <el-input
-          v-model="queryParams.name"
-          placeholder="请输入姓名"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="联系方式" prop="phone">
-        <el-input
-          v-model="queryParams.phone"
-          placeholder="请输入联系方式"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="审核状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择审核状态" clearable size="small">
           <el-option
@@ -43,7 +25,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:message:add']"
+          v-hasPermi="['system:pic:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -54,7 +36,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:message:edit']"
+          v-hasPermi="['system:pic:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -65,7 +47,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:message:remove']"
+          v-hasPermi="['system:pic:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -75,18 +57,16 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:message:export']"
+          v-hasPermi="['system:pic:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="messageList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="picList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="姓名" align="center" prop="name" />
-      <el-table-column label="联系方式" align="center" prop="phone" />
-      <el-table-column label="内容" align="center" prop="content" />
+      <el-table-column label="图片" align="center" prop="content" />
       <el-table-column label="审核状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.a_type" :value="scope.row.status"/>
@@ -99,19 +79,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:message:edit']"
+            v-hasPermi="['system:pic:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:message:remove']"
+            v-hasPermi="['system:pic:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -120,17 +100,11 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改留言信息对话框 -->
+    <!-- 添加或修改图片信息对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="form.name" placeholder="请输入姓名" />
-        </el-form-item>
-        <el-form-item label="联系方式" prop="phone">
-          <el-input v-model="form.phone" placeholder="请输入联系方式" />
-        </el-form-item>
-        <el-form-item label="内容">
-          <editor v-model="form.content" :min-height="192"/>
+        <el-form-item label="图片">
+          <imageUpload v-model="form.content"/>
         </el-form-item>
         <el-form-item label="审核状态">
           <el-radio-group v-model="form.status">
@@ -151,10 +125,10 @@
 </template>
 
 <script>
-import { listMessage, getMessage, delMessage, addMessage, updateMessage } from "@/api/system/message";
+import { listPic, getPic, delPic, addPic, updatePic } from "@/api/system/pic";
 
 export default {
-  name: "Message",
+  name: "Pic",
   dicts: ['a_type'],
   data() {
     return {
@@ -170,8 +144,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 留言信息表格数据
-      messageList: [],
+      // 图片信息表格数据
+      picList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -180,8 +154,6 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        name: null,
-        phone: null,
         content: null,
         status: null,
       },
@@ -189,14 +161,8 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        name: [
-          { required: true, message: "姓名不能为空", trigger: "blur" }
-        ],
-        phone: [
-          { required: true, message: "联系方式不能为空", trigger: "blur" }
-        ],
         content: [
-          { required: true, message: "内容不能为空", trigger: "blur" }
+          { required: true, message: "图片不能为空", trigger: "blur" }
         ],
       }
     };
@@ -205,11 +171,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询留言信息列表 */
+    /** 查询图片信息列表 */
     getList() {
       this.loading = true;
-      listMessage(this.queryParams).then(response => {
-        this.messageList = response.rows;
+      listPic(this.queryParams).then(response => {
+        this.picList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -223,8 +189,6 @@ export default {
     reset() {
       this.form = {
         id: null,
-        name: null,
-        phone: null,
         content: null,
         status: 0,
         createTime: null
@@ -251,16 +215,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加留言信息";
+      this.title = "添加图片信息";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getMessage(id).then(response => {
+      getPic(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改留言信息";
+        this.title = "修改图片信息";
       });
     },
     /** 提交按钮 */
@@ -268,13 +232,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateMessage(this.form).then(response => {
+            updatePic(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addMessage(this.form).then(response => {
+            addPic(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -286,8 +250,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除留言信息编号为"' + ids + '"的数据项？').then(function() {
-        return delMessage(ids);
+      this.$modal.confirm('是否确认删除图片信息编号为"' + ids + '"的数据项？').then(function() {
+        return delPic(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -295,9 +259,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/message/export', {
+      this.download('system/pic/export', {
         ...this.queryParams
-      }, `message_${new Date().getTime()}.xlsx`)
+      }, `pic_${new Date().getTime()}.xlsx`)
     }
   }
 };

@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * 留言信息Mapper接口
  *
  * @author ruoyi
- * @date 2023-04-10
+ * @date 2023-05-07
  */
 public interface MessageMapper extends BaseMapper<Message> {
 

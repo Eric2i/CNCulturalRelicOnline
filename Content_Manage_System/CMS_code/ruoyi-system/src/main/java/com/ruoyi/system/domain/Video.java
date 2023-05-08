@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 留言信息对象 message
+ * 视频信息对象 video
  *
  * @author ruoyi
  * @date 2023-05-07
@@ -18,8 +18,8 @@ import com.ruoyi.common.core.domain.BaseEntity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@TableName(value = "message", excludeProperty = {"createBy","updateBy","updateTime","remark"})
-public class Message extends BaseEntity
+@TableName(value = "video", excludeProperty = {"createBy","updateBy","updateTime","remark"})
+public class Video extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -27,16 +27,8 @@ public class Message extends BaseEntity
         @TableId("id")
         private Long id;
 
-    /** 姓名 */
-    @Excel(name = "姓名")
-        private String name;
-
-    /** 联系方式 */
-    @Excel(name = "联系方式")
-        private String phone;
-
-    /** 内容 */
-    @Excel(name = "内容")
+    /** 视频 */
+    @Excel(name = "视频")
         private String content;
 
     /** 审核状态 */
