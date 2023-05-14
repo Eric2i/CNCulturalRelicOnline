@@ -1,0 +1,40 @@
+LOAD CSV WITH HEADERS FROM 'file:///data5.csv' AS line
+CREATE (:relics_4 {id:line.id, title:line.Title, artist:line.`Artist/maker`, date:line.Date, material_technique:line.`Material and technique`, material_index:line.`Material index`, dimensions:line.Dimensions, link:line.link, m_id:line.mid})
+
+LOAD CSV WITH HEADERS FROM 'file:///artist5.csv' AS line
+CREATE (:Artist_4 {id: line.id, artist_name: line.artist_name})
+
+LOAD CSV WITH HEADERS FROM 'file:///artist5文物.csv' AS line
+MATCH (r:relics_4 {id: line.fromm})
+MATCH (a:Artist_4 {id: line.to})
+MERGE (r)-[:CREATED_BY]->(a)
+
+LOAD CSV WITH HEADERS FROM 'file:///date5.csv' AS line
+CREATE (:date_4 {id: line.id, date_name: line.date_name})
+
+LOAD CSV WITH HEADERS FROM 'file:///date5文物.csv' AS line
+MATCH (r:relics_4 {id:line.fromm}), (d:date_4 {id:line.to})
+CREATE (r)-[:DATE_ON]->(d)
+
+LOAD CSV WITH HEADERS FROM 'file:///material5.csv' AS line
+CREATE (:material_4 {id: line.id, material_name: line.materi_name})
+
+
+LOAD CSV WITH HEADERS FROM 'file:///material文物.csv' AS line
+MATCH (r:relics_4 {id:line.fromm}), (d:material_4 {id:line.to})
+CREATE (r)-[:MADE_OF]->(d)
+
+LOAD CSV WITH HEADERS FROM 'file:///technique5.csv' AS line
+CREATE (:technique_4 {id: line.id, tech_name: line.tech_name})
+
+LOAD CSV WITH HEADERS FROM 'file:///technique文物.csv' AS line
+MATCH (r:relics_4 {id:line.fromm}), (d:technique_4 {id:line.to})
+CREATE (r)-[:MATHOD_OF]->(d)
+
+#生成museum节点
+LOAD CSV WITH HEADERS FROM 'file:///museum.csv' AS line
+create (:museum {name:line.名称,id:line.序号})
+
+LOAD CSV WITH HEADERS FROM "file:///rel5.csv" AS line 
+match (from:relics_4{id:line.fromm}),(to:museum {id:line.to}) 
+merge (from)-[r:MUSEUM_IN]->(to)

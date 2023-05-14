@@ -1,0 +1,40 @@
+#生成relics节点
+LOAD CSV WITH HEADERS FROM 'file:///datass.csv' AS line
+create (:relics {id:line.序号,name:line.名称,author:line.作者,times:line.時代,country:line.出土国,reference:line.備考,site:line.撮影部位,day:line.撮影日,number:line.数量,photo:line.图片,m_id:line.博物馆})
+
+#生成museum节点
+LOAD CSV WITH HEADERS FROM 'file:///museum.csv' AS line
+create (:museum {name:line.名称,id:line.序号})
+
+#生成relics和museum关系
+
+LOAD CSV WITH HEADERS FROM "file:///mre.csv" AS line 
+match (from:relics{id:line.fromm}),(to:museum {m_id:line.to}) 
+merge (from)-[r:bemuseum]->(to)
+
+#生成author节点
+LOAD CSV WITH HEADERS FROM 'file:///author.csv' AS line
+create (:author {name:line.名称,id:line.序号})
+
+#生成author和relics节点的关系
+LOAD CSV WITH HEADERS FROM "file:///authorrelics.csv" AS line 
+match (from:relics{id:line.序号}),(to:author {id:line.作者编号}) 
+merge (from)-[r:aritist]->(to)
+
+#创建时代节点
+LOAD CSV WITH HEADERS FROM 'file:///time.csv' AS line
+create (:times {t_id:line.时代编号,t_name:line.时代名称})
+
+#创建时代文物关系
+LOAD CSV WITH HEADERS FROM "file:///timerelics.csv" AS line 
+match (from:relics{id:line.序号}),(to:times {t_id:line.时代编号}) 
+merge (from)-[r:era]->(to)
+
+#创建摄影部位节点
+LOAD CSV WITH HEADERS FROM 'file:///part.csv' AS line
+create (:part {p_id:line.摄影部位编号,p_name:line.摄影部位名称})
+
+##创建摄影部位文物关系
+LOAD CSV WITH HEADERS FROM "file:///partrelic.csv" AS line 
+match (from:relics{id:line.fromm}),(to:part {p_id:line.to}) 
+merge (from)-[r:parts]->(to)
