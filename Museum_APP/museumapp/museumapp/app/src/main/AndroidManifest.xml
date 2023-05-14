@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.app.demo">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activitys.GSShoucangListActivity"
+            android:theme="@style/Transparent" />
+        <activity
+            android:name=".activitys.GSShoucangDetailActivity"
+            android:theme="@style/Transparent" />
+        <activity
+            android:name=".activitys.GSDetailActivity"
+            android:theme="@style/Transparent" />
+        <activity
+            android:name=".activitys.PassWordResetActivity"
+            android:theme="@style/Transparent" />
+        <activity
+            android:name=".activitys.RegisterActivity"
+            android:theme="@style/Transparent" />
+        <activity android:name=".activitys.LoginActivity">
+
+        </activity>
+        <activity android:name=".activitys.GSListSearchActivity">
+
+        </activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activitys.GSLiulanListActivity"
+            android:theme="@style/Transparent" />
+        <activity
+            android:name=".shares.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+    </application>
+
+</manifest>

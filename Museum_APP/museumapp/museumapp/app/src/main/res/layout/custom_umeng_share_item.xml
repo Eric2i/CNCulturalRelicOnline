@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/imgv_share_umeng_channel"
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/umeng_socialize_wxcircle" />
+
+    <TextView
+        android:id="@+id/tv_custom_umeng_channel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="微信"
+        android:layout_marginBottom="5dp"
+        android:textColor="#000000"
+        android:textSize="12sp" />
+
+</LinearLayout>
