@@ -13,6 +13,14 @@ export default {
 </script>
 
 <style>
+.ChatGPT {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -22,7 +30,7 @@ export default {
   margin-top: 0px;
 }
 #building{
-  background:url("D:\Code\chat-bot-vue-master\public\zsydney.png");
+  background:url("D:\2023\CNCulturalRelicOnline\QASystem\QASystem_code\client\public\index.html");
   width:100%;
   height:100%;
   position:fixed;

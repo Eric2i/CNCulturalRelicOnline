@@ -58,7 +58,7 @@ public class ChatbotApplication {
     private Flux<String> submit(HttpServletResponse response, @RequestParam String question) {
         response.setContentType("text/event-stream;charset=utf-8");
         openAi.setPrompt(question);
-        HttpClient httpClient = HttpClient.create().proxy(proxy -> proxy.type(ProxyProvider.Proxy.HTTP).host("127.0.0.1").port(33210));//注意配置魔法端口！！
+        HttpClient httpClient = HttpClient.create().proxy(proxy -> proxy.type(ProxyProvider.Proxy.HTTP).host("127.0.0.1").port(443));//注意配置魔法端口！！
         WebClient build = WebClient.builder()
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
