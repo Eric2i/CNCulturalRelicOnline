@@ -15,39 +15,41 @@
                     <!-- 添加一个轮播图模块 -->
                     <el-carousel :interval="4000" type="card" height="200px">
                         <el-carousel-item>
-                            <p>白玉雕三羊纹执壶</p>
+                            <p>弓箭手的戒指</p>
                             <div
-                                style="width: 150px;height: 150px;margin: auto;background-image: url(https://s1.ax1x.com/2023/05/08/p90QnsI.jpg);background-size: 100% 100%;">
+                                style="width: 150px;height: 150px;margin: auto;background-image: url(http://ocr-museum.cn/api/upload/20210423/18394733-f470-4ed3-a748-fab7b5c676f9.jpg);background-size: 100% 100%;">
                             </div>
                         </el-carousel-item>
                         <el-carousel-item>
-                            <p>金玉石珐琅桃鹿盆景</p>
+                            <p>有盖的芯片香盒</p>
                             <div
-                                style="width: 150px;height: 150px;margin: auto;background-image: url(https://s1.ax1x.com/2023/05/08/p90QmQA.jpg);background-size: 100% 100%;">
+                                style="width: 150px;height: 150px;margin: auto;background-image: url(http://ocr-museum.cn/api/upload/20210423/4f2d65a5-9e55-4e3e-af65-2f886dcd1e88.jpg);background-size: 100% 100%;">
                             </div>
                         </el-carousel-item>
                         <el-carousel-item>
-                            <p>金累丝嵌珍珠五凤钿</p>
+                            <p>多乳博局式鏡</p>
                             <div
-                                style="width: 150px;height: 150px;margin: auto;background-image: url(https://s1.ax1x.com/2023/05/08/p90QVRH.jpg);background-size: 100% 100%;">
+                                style="width: 150px;height: 150px;margin: auto;background-image: url(http://ocr-museum.cn/api/upload/20210423/3c57af67-5b6e-4a65-8336-49558af26245.jpg);background-size: 100% 100%;">
                             </div>
                         </el-carousel-item>
                         <el-carousel-item>
-                            <p>金甪端形香熏</p>
+                            <p>翡翠西瓜</p>
                             <div
-                                style="width: 150px;height: 150px;margin: auto;background-image: url(https://s1.ax1x.com/2023/05/08/p90QEJe.jpg);background-size: 100% 100%;">
+                                style="width: 150px;height: 150px;margin: auto;background-image: url(http://ocr-museum.cn/api/upload/20210423/844e6723-be65-4ee9-b521-67b5cbd04eaa.jpg);background-size: 100% 100%;">
                             </div>
                         </el-carousel-item>
                     </el-carousel>
 
                     <!-- openai官网的超链接 -->
-                    <el-link href="https://www.clevelandart.org/" target="_blank" style="margin: 200px 0 0 0 ; font-size: 30px; ">克利夫兰艺术博物馆</el-link>
+                    <el-link href="http://ocr-museum.cn/#/jingdianxinxidetail?id=17" target="_blank" style="margin: 200px 0 0 0 ; font-size: 30px; ">克利夫兰博物馆</el-link>
                     <br>
-                    <el-link href="https://openai.com/" target="_blank" style="margin: 20px 0 0 0; font-size: 30px; ">OpenAI</el-link>
+                    <el-link href="http://ocr-museum.cn/#/jingdianxinxidetail?id=17" target="_blank" style="margin: 20px 0 0 0; font-size: 30px; ">纽约现代艺术博物馆</el-link>
                     <br>
-                    <el-link href="https://github.com/Eric2i/CNCulturalRelicOnline" target="_blank" style="margin: 20px 0 0 0; font-size: 30px; ">Git仓库</el-link>
+                    <el-link href="http://ocr-museum.cn/#/jingdianxinxidetail?id=15" target="_blank" style="margin: 20px 0 0 0; font-size: 30px; ">比利时皇家美术馆</el-link>
                     <br>
-                    <el-link href="https://www.buct.edu.cn/main.htm" target="_blank" style="margin: 20px 0 200px 0; font-size: 30px; ">BUCT</el-link>
+                    <el-link href="http://ocr-museum.cn/#/jingdianxinxidetail?id=7" target="_blank" style="margin: 20px 0 0 0; font-size: 30px; ">大英博物馆</el-link>
+                    <br>
+                    <el-link href="http://ocr-museum.cn/#/index" target="_blank" style="margin: 20px 0 150px 0; font-size: 30px; ">返回首页</el-link>
 
                 </el-aside>
                 <el-container style="height: 100%;">
@@ -62,6 +64,7 @@
                                     <br>
                                     <img v-if="item.image" :src="item.image"
                                         style="display: block; max-width: 300px; max-height: 300px;margin: auto;" />
+                                    <el-link v-if="item.url" :href="item.url" target="_blank">点击查看详情</el-link>
                                 </el-descriptions-item>
                             </div>
                         </el-descriptions>
@@ -77,7 +80,7 @@
                                 <el-button type="primary" @click="autoAnser1()" style="margin: 5px 5px;width:200px;"
                                     size="large">介绍一下克利夫兰博物馆</el-button>
                                 <el-button type="primary" @click="autoAnser2()" style="margin: 5px 5px;width:200px;"
-                                    size="large">克利夫兰博物馆主要藏品</el-button>
+                                    size="large">美国的主要博物馆</el-button>
                                 <el-button type="primary" @click="autoAnser3()" style="margin: 5px 5px;width:200px;"
                                     size="large">世界上著名的博物馆</el-button>
                                 <el-button type="primary" @click="autoAnser4()" style="margin: 5px 5px;width:200px;"
@@ -122,7 +125,7 @@ export default {
     methods: {
         chat() {
             this.click = true;
-            let url = 'http://127.0.0.1:8080/request?question=' + this.question;
+            let url = 'http://localhost:8099/request?question=' + this.question;
             //let url = 'https://chat-bot-29072-7-1316779917.sh.run.tcloudbase.com/request?question=' + this.question;
             var you = { sender: "YOU:", message: this.question };
             var ai = { sender: "小助手:", message: "" };
@@ -151,8 +154,9 @@ export default {
             var you = { sender: "YOU:", message: "介绍一下克利夫兰博物馆" };
             var ai = {
                 sender: "小助手:"
-                , message: "克利夫兰博物馆的艺术品收藏非常丰富，其中的一些藏品属于世界级别。例如，该博物馆拥有美国最大的亚洲艺术收藏之一，以及美国最著名的欧洲绘画和雕塑收藏之一。此外，博物馆还拥有古希腊、罗马和埃及艺术品、非洲艺术品、印第安艺术品和古代近东艺术品等。克利夫兰博物馆还是一个文化中心，经常举办各种艺术展览、讲座、音乐会和表演活动等，以及提供教育计划和社区项目，为游客提供了一个深入了解不同文化和艺术领域的机会。克利夫兰博物馆的建筑本身也是一个艺术品，由哈佛大学毕业生考特·格里瑟姆设计，是一座现代化的建筑，拥有充足的空间来展示丰富的藏品。博物馆的设计体现了现代化与传统元素的融合，如大理石、青铜和玻璃等材料的运用，使得博物馆成为了克利夫兰市的地标之一。"
-                , image: "https://s1.ax1x.com/2023/05/11/p9rvxSS.jpg"
+                , message: "克利夫兰艺术博物馆是美国最重要的美术馆和博物馆。位于俄亥俄州克里夫兰市中心以东克利夫兰大学圈地区。1913年成立，艺术作品超过43000件，其永久性画廊是1916年建设的。它以其广泛收集前哥伦布艺术，中世纪欧洲、亚洲和印度的艺术而出名。博物馆收藏的亚洲艺术品是美国拥有最好的。美国克利夫兰艺术博物馆克里夫兰艺术博物馆，成立于1913年。"
+                , image: "http://ocr-museum.cn/api/upload/20210423/36b5b579-f6a3-4e58-8a32-e55bbbc38430.webp"
+                , url: "http://ocr-museum.cn/#/jingdianxinxidetail?id=17"
             };
             this.chatRecord.push(you);
             this.chatRecord.push(ai);
@@ -161,11 +165,12 @@ export default {
         },
         autoAnser2() {
             this.click = true;
-            var you = { sender: "YOU:", message: "克利夫兰博物馆主要藏品" };
+            var you = { sender: "YOU:", message: "美国的主要博物馆" };
             var ai = {
                 sender: "小助手:"
-                , message: "克利夫兰博物馆是位于美国俄亥俄州克利夫兰的一座艺术博物馆，成立于1913年，是美国著名的文化机构之一。其收藏涵盖了来自全球各地的超过61,000件艺术和文化遗产，其中包括：\n1.欧洲绘画：收藏了超过4,000幅欧洲绘画作品，其中包括许多重要的作品，如梵高的《星空》、达芬奇的《美丽的弥赛亚》等。\n2.亚洲艺术：收藏了超过1万件来自亚洲各地的艺术品，包括中国、日本、印度、泰国等国家的艺术品，其中一些作品可以追溯到公元前1500年。\n3.美洲艺术：收藏了超过5,000件来自美洲地区的艺术品，包括美国、加拿大、墨西哥等国家的艺术品，其中包括古代美洲文化的艺术品和现代美国艺术作品。\n4.现代和当代艺术：收藏了超过1万件现代和当代艺术品，包括波洛克、毕加索、沃霍尔、卡拉维吉奥等重要的艺术家的作品。\n此外，克利夫兰博物馆还收藏了大量的装饰艺术品、雕塑、摄影、版画等艺术品，以及古代文物、珍贵书籍等文化遗产。"
-                , image: "https://s1.ax1x.com/2023/05/11/p9rvjW8.jpg"
+                , message: "美国主要的博物馆有：\n1.圣地亚哥艺术博物馆\n2.克利夫兰博物馆\n3.纽约现代艺术博物馆\n4.大都会艺术博物馆"
+                , image: "http://ocr-museum.cn/api/upload/20210423/d3f448d9-9ccf-4e26-84f8-c2e4828b0b6a.jpg"
+                , url: "http://ocr-museum.cn/#/jingdianxinxi?jingdianbianhao=&jingdianmingcheng=&suoshudiqu=14&tupian=&kaifangshijian=&fujinmeishi=&dizhi=&piaojia_start=&piaojia_end=&liulanliang_start=&liulanliang_end=&miaoshu=&addtime=&page=1&pagesize=12"
             };
             this.chatRecord.push(you);
             this.chatRecord.push(ai);
@@ -187,7 +192,7 @@ export default {
         },
         autoAnser4() {
             this.click = true;
-            var you = { sender: "YOU:", message: "介绍一下克利夫兰博物馆" };
+            var you = { sender: "YOU:", message: "文物保护法是什么？" };
             var ai = {
                 sender: "小助手:"
                 , message: "《中华人民共和国文物保护法》是为了加强对文物的保护，继承中华民族优秀的历史文化遗产，促进科学研究工作，进行爱国主义和革命传统教育，建设社会主义精神文明和物质文明，而制定的法规。\n该法规由第五届全国人民代表大会常务委员会第二十五次会议于1982年11月19日通过，自1982年11月19日起施行。当前版本为2015年4月24日第十二届全国人民代表大会常务委员会第十四次会议修改。\n2017年11月4日，第十二届全国人民代表大会常务委员会第三十次会议决定，通过对《中华人民共和国文物保护法》作出修改。"

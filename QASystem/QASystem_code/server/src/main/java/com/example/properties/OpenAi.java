@@ -3,6 +3,8 @@ package com.example.properties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.security.PrivateKey;
+
 /**
  * @author yun_kai
  */

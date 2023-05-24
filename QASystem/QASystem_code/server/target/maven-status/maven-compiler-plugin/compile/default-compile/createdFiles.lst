@@ -1,0 +1,5 @@
+com\example\properties\OpenAi.class
+com\example\ChatbotApplication.class
+com\example\ai\Choices.class
+com\example\ai\Answer.class
+com\example\config\WebClientConfig.class
