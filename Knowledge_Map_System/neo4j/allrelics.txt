@@ -1,0 +1,53 @@
+LOAD CSV WITH HEADERS FROM 'file:///museum.csv' AS line
+create (:museum {m_name:line.名称,id:line.序号,url:line.网址,introduction:line.介绍})
+
+LOAD CSV WITH HEADERS FROM 'file:///dataall.csv' AS line
+create (:relics {id:line.No,name:line.Name,author:line.Artist,use:line.Type,dynasty:line.Dynasty,Medium_Support:line.Medium_Support,Material_technique:line.Material_technique,Credit_Line:line.Credit_Line,Accession_Number:line.Accession_Number,State:line.State,Dimensions:line.Dimensions,picture:line.href,introduction:line.introduce,ALL_type:line.ALL_tyep,Material:line.Material})
+
+LOAD CSV WITH HEADERS FROM "file:///mure.csv" AS line 
+match (from:relics{id:line.No}),(to:museum {id:line.mid}) 
+merge (from)-[r:MUSEUM_IN]->(to)
+
+LOAD CSV WITH HEADERS FROM 'file:///materialz.csv' AS line
+create (:material {name:line.name,id:line.id})
+
+LOAD CSV WITH HEADERS FROM "file:///materialz文物.csv" AS line 
+match (from:relics{id:line.fromm}),(to:material {id:line.to}) 
+merge (from)-[r:MADE_OF]->(to)
+
+LOAD CSV WITH HEADERS FROM 'file:///alltypez.csv' AS line
+create (:usetype {name:line.name,id:line.id})
+
+LOAD CSV WITH HEADERS FROM "file:///alltypez文物.csv" AS line 
+match (from:relics{id:line.fromm}),(to:usetype {id:line.to}) 
+merge (from)-[r:USE_TYPE]->(to)
+
+
+LOAD CSV WITH HEADERS FROM 'file:///dynastyz.csv' AS line
+create (:dyansty {name:line.name,id:line.id})
+
+LOAD CSV WITH HEADERS FROM "file:///dynastyz文物.csv" AS line 
+match (from:relics{id:line.fromm}),(to:dyansty {id:line.to}) 
+merge (from)-[r:DATE_IN]->(to)
+
+
+LOAD CSV WITH HEADERS FROM 'file:///statez.csv' AS line
+create (:state {name:line.name,id:line.id})
+
+LOAD CSV WITH HEADERS FROM "file:///statez文物.csv" AS line 
+match (from:relics{id:line.fromm}),(to:state {id:line.to}) 
+merge (from)-[r:LOCATED_IN]->(to)
+
+LOAD CSV WITH HEADERS FROM 'file:///makerz.csv' AS line
+create (:maker {name:line.name,id:line.id})
+
+LOAD CSV WITH HEADERS FROM "file:///makerz文物.csv" AS line 
+match (from:relics{id:line.fromm}),(to:maker {id:line.to}) 
+merge (from)-[r:CREATE_BY]->(to)
+
+LOAD CSV WITH HEADERS FROM 'file:///linez.csv' AS line
+create (:credit_line {name:line.name,id:line.id})
+
+LOAD CSV WITH HEADERS FROM "file:///linez文物.csv" AS line 
+match (from:relics{id:line.fromm}),(to:credit_line {id:line.to}) 
+merge (from)-[r:CREAT_LINE]->(to)

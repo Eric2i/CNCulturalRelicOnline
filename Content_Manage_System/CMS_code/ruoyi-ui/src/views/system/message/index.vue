@@ -19,6 +19,16 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="审核状态" prop="status">
+        <el-select v-model="queryParams.status" placeholder="请选择审核状态" clearable size="small">
+          <el-option
+            v-for="dict in dict.type.a_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -77,6 +87,11 @@
       <el-table-column label="姓名" align="center" prop="name" />
       <el-table-column label="联系方式" align="center" prop="phone" />
       <el-table-column label="内容" align="center" prop="content" />
+      <el-table-column label="审核状态" align="center" prop="status">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.a_type" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -117,6 +132,15 @@
         <el-form-item label="内容">
           <editor v-model="form.content" :min-height="192"/>
         </el-form-item>
+        <el-form-item label="审核状态">
+          <el-radio-group v-model="form.status">
+            <el-radio
+              v-for="dict in dict.type.a_type"
+              :key="dict.value"
+              :label="parseInt(dict.value)"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -131,6 +155,7 @@ import { listMessage, getMessage, delMessage, addMessage, updateMessage } from "
 
 export default {
   name: "Message",
+  dicts: ['a_type'],
   data() {
     return {
       // 遮罩层
@@ -158,6 +183,7 @@ export default {
         name: null,
         phone: null,
         content: null,
+        status: null,
       },
       // 表单参数
       form: {},
@@ -200,6 +226,7 @@ export default {
         name: null,
         phone: null,
         content: null,
+        status: 0,
         createTime: null
       };
       this.resetForm("form");

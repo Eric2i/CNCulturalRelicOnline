@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_theme_bg"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/layout_title_view" />
+
+
+    <EditText
+        android:id="@+id/inputpwd_new"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/shape_fff_4"
+        android:hint="请输入新的密码"
+        android:paddingLeft="12dp"
+        android:layout_marginTop="10dp"
+        android:paddingRight="12dp"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:textColor="#43496A"
+        android:textColorHint="#bbbbbb"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/inputpwd_repeat"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/shape_fff_4"
+        android:hint="请确认您的密码" android:inputType="textPassword"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:singleLine="true"
+        android:textColor="#43496A"
+        android:textColorHint="#bbbbbb"
+        android:textSize="14sp" />
+
+
+    <TextView
+        android:id="@+id/tv_modify"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_button_4"
+        android:gravity="center"
+        android:text="提交"
+        android:textColor="@color/whilt"
+        android:textSize="16sp" />
+
+</LinearLayout>

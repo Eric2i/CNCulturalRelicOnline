@@ -13,7 +13,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
  * 留言信息Service业务层处理
  *
  * @author ruoyi
- * @date 2023-04-10
+ * @date 2023-05-07
  */
 @Service
 public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> implements IMessageService {

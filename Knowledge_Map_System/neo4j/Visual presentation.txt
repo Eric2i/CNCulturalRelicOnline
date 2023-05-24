@@ -1,0 +1,27 @@
+#作者关系
+MATCH p=()-[r:CREATE_BY]->() RETURN p LIMIT 60
+
+#博物馆关系
+MATCH (:relics)-[r:MUSEUM_IN]->(m:museum)
+WHERE m.id IN ['1','2','3','4','5']
+WITH m, collect(r) AS rels
+UNWIND rels AS rel
+WITH m, rel, startNode(rel) AS start, endNode(rel) AS end
+RETURN m, type(rel) AS rel_type, collect(DISTINCT start)[..20] AS start_nodes, collect(DISTINCT end)[..20] AS end_nodes
+
+#用途关系
+MATCH p=()-[r:USE_TYPE]->() RETURN p LIMIT 60
+
+#朝代关系
+MATCH (:relics)-[r:DATE_IN]->(m:dyansty)
+WHERE m.id IN ['2','3','5','6','7']
+WITH m, collect(r) AS rels
+UNWIND rels AS rel
+WITH m, rel, startNode(rel) AS start, endNode(rel) AS end
+RETURN m, type(rel) AS rel_type, collect(DISTINCT start)[..20] AS start_nodes, collect(DISTINCT end)[..20] AS end_nodes
+
+#材料关系
+MATCH p=()-[r:MADE_OF]->() RETURN p LIMIT 60
+
+#出土地
+MATCH p=()-[r:LOCATED_IN]->() RETURN p LIMIT 60

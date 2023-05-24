@@ -1,0 +1,38 @@
+#生成relics节点
+LOAD CSV WITH HEADERS FROM 'file:///datass.csv' AS line
+create (:relics {id:line.序号,name:line.名称,author:line.作者,times:line.時代,country:line.出土国,reference:line.備考,site:line.撮影部位,day:line.撮影日,number:line.数量,photo:line.图片,m_id:line.博物馆})
+
+#生成name节点
+LOAD CSV WITH HEADERS FROM 'file:///name_5.csv' AS line
+create (:name_5 {n_id:line.id,n_name:line.name})
+
+#生成name和relics关系
+
+LOAD CSV WITH HEADERS FROM "file:///namerelics.csv" AS line 
+match (from:relics_5{id:line.fromm}),(to:name {n_id:line.to}) 
+merge (from)-[r:names]->(to)
+
+#生成time节点
+LOAD CSV WITH HEADERS FROM 'file:///time_5.csv' AS line
+create (:time_5 {t_id:line.id,t_name:line.name})
+
+#生成time和relics关系
+
+LOAD CSV WITH HEADERS FROM "file:///timerelics_5.csv" AS line 
+match (from:relics_5{id:line.fromm}),(to:time_5 {t_id:line.to}) 
+merge (from)-[r:time_5]->(to)
+
+#生成dynasty节点
+LOAD CSV WITH HEADERS FROM 'file:///dynasty_5.csv' AS line
+create (:dynasty_5 {d_id:line.id,d_name:line.name})
+
+#生成dynasty和relics关系
+
+LOAD CSV WITH HEADERS FROM "file:///dynastyrelic.csv" AS line 
+match (from:relics_5{id:line.fromm}),(to:museum {d_id:line.to}) 
+merge (from)-[r:museum_5]->(to)
+
+#生成museum关系
+LOAD CSV WITH HEADERS FROM "file:///mre5.csv" AS line 
+match (from:relics_5{id:line.fromm}),(to:museum {m_id:line.to}) 
+merge (from)-[r:museum_5]->(to)
